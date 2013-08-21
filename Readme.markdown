@@ -43,8 +43,10 @@ Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
   }
 ```
 
-Don't forget the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ```net.ipv4.ip_forward```!
-
+Don't forget to enable the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ```net.ipv4.ip_forward```!
+```puppet
+  sysctl::value { "net.ipv4.ip_forward": value => '1'; }
+```
 
 # Contributors
 
