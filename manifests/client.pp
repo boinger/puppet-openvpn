@@ -128,9 +128,11 @@ define openvpn::client(
   }
 
   file {
-    [ "/etc/openvpn/${server}/download-configs/${name}",
-      "/etc/openvpn/${server}/download-configs/${name}/keys"]:
-        ensure  => directory;
+    [
+      "/etc/openvpn/${server}/download-configs/${name}",
+      "/etc/openvpn/${server}/download-configs/${name}/keys"
+    ]:
+      ensure  => directory;
 
     "/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt":
       ensure  => link,
@@ -160,15 +162,13 @@ define openvpn::client(
       cwd         => "/etc/openvpn/${server}/download-configs/",
       command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
       refreshonly => true,
+      notify      => Exec["generate ${name}.ovpn in ${server}"],
       require     => [  File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
                         File["/etc/openvpn/${server}/download-configs/${name}/keys/ca.crt"],
                         File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.key"],
                         File["/etc/openvpn/${server}/download-configs/${name}/keys/${name}.crt"]
-                      ],
-      notify      => Exec["generate ${name}.ovpn in ${server}"];
-  }
+                      ];
 
-  exec {
     "generate ${name}.ovpn in ${server}":
       cwd         => "/etc/openvpn/${server}/download-configs/",
       command     => "/bin/rm ${name}.ovpn; cat  ${name}/${name}.conf|perl -lne 'if(m|^ca keys/ca.crt|){ chomp(\$ca=`cat ${name}/keys/ca.crt`); print \"<ca>\n\$ca\n</ca>\"} elsif(m|^cert keys/${name}.crt|) { chomp(\$crt=`cat ${name}/keys/${name}.crt`); print \"<cert>\n\$crt\n</cert>\"} elsif(m|^key keys/${name}.key|){ chomp(\$key=`cat ${name}/keys/${name}.key`); print \"<key>\n\$key\n</key>\"} else { print} ' > ${name}.ovpn",
