@@ -22,11 +22,11 @@ class openvpn::params {
   }
 
   $easyrsa_source = $::osfamily ? {
-    'RedHat'  => $::operatingsystemmajrelease ? {
-      6 => '/usr/share/openvpn/easy-rsa/2.0',
+    'RedHat' => $::operatingsystemmajrelease ? {
+      6       => '/usr/share/easy-rsa/2.0',
       default => '/usr/share/doc/openvpn-2.2.2/easy-rsa/2.0'
     },
-    default   => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
+    default  => '/usr/share/doc/openvpn/examples/easy-rsa/2.0'
   }
 
   $link_openssl_cnf = $::osfamily ? {
