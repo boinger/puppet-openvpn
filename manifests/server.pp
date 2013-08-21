@@ -156,25 +156,29 @@ define openvpn::server(
       command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
       creates => "/etc/openvpn/${name}/easy-rsa",
       notify  => Exec["fix_easyrsa_file_permissions_${name}"],
-      require => File["/etc/openvpn/${name}"];
+      require => [ File["/etc/openvpn/${name}"], Package['easy-rsa']];
 
     "fix_easyrsa_file_permissions_${name}":
       refreshonly => true,
-      command     => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*";
+      command     => "/bin/chmod 755 /etc/openvpn/${name}/easy-rsa/*",
+      require => [ File["/etc/openvpn/${name}"], Package['easy-rsa']];
 
     "generate dh param ${name}":
       command  => '. ./vars && ./clean-all && ./build-dh',
       cwd      => "/etc/openvpn/${name}/easy-rsa",
       creates  => "/etc/openvpn/${name}/easy-rsa/keys/dh1024.pem",
       provider => 'shell',
-      require  => File["/etc/openvpn/${name}/easy-rsa/vars"];
+      require  => [ File["/etc/openvpn/${name}/easy-rsa/vars"], Package['easy-rsa']];
 
     "initca ${name}":
       command  => '. ./vars && ./pkitool --initca',
       cwd      => "/etc/openvpn/${name}/easy-rsa",
       creates  => "/etc/openvpn/${name}/easy-rsa/keys/ca.key",
       provider => 'shell',
-      require  => [ Exec["generate dh param ${name}"], File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"] ];
+      require  => [ Exec["generate dh param ${name}"],
+                    File["/etc/openvpn/${name}/easy-rsa/openssl.cnf"],
+                    Package['easy-rsa'],
+                    ];
 
     "generate server cert ${name}":
       command  => '. ./vars && ./pkitool --server server',
