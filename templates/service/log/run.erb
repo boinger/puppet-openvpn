@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -d ./main ] || mkdir ./main
+chown -Rf <%= @loguser %> .
+exec setuidgid <%= @loguser %> multilog s5000000 ./main
