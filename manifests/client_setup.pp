@@ -92,7 +92,7 @@ define openvpn::client_setup(
     "untar ${tarball} into /etc/openvpn/${tarbasename}":
       cwd         => "/etc/openvpn",
       command     => "/bin/tar xfv ${dropfolder}/${tarball}",
-      onlyif      => "/bin/test ! -f /etc/openvpn/${name}/${tarball}.md5sum || /usr/bin/test \"$(cat /etc/openvpn/${name}/${tarball}.md5sum)\" != \"$(cat ${dropfolder}/${tarball}.md5sum)\"",
+      onlyif      => "/usr/bin/test ! -f /etc/openvpn/${name}/${tarball}.md5sum || /usr/bin/test \"$(cat /etc/openvpn/${name}/${tarball}.md5sum)\" != \"$(cat ${dropfolder}/${tarball}.md5sum)\"",
       notify      => Exec["copy ${tarball}.md5sum into conf dir"],
       require     => Package['openvpn'];
 
