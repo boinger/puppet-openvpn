@@ -92,16 +92,17 @@ define openvpn::client_setup(
     "/etc/openvpn/${name}/keys":
       owner   => $user,
       recurse => true,
-      mode    => 0644
+      mode    => 0644,
       require => File["/etc/openvpn/${name}"];
 
     "/etc/openvpn/${name}/keys/${name}.key":
       owner   => $user,
-      mode    => 0600
+      mode    => 0600,
       require => File["/etc/openvpn/${name}"];
 
     "/etc/openvpn/${name}/${name}.conf":
       owner   => $user,
+      mode    => 0444,
       require => File["/etc/openvpn/${name}"];
   }
 
