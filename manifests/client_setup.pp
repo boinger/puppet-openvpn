@@ -91,7 +91,7 @@ define openvpn::client_setup(
     $user = openvpn
     $loguser = openvpn
 
-    daemontools::setup{
+    daemontools::setup {
       "openvpn/${name}":
         user    => $user,
         loguser => $loguser,
