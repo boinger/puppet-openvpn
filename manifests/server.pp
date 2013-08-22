@@ -131,7 +131,8 @@ define openvpn::server(
   $push = []
 ) {
 
-  include openvpn
+  class { 'openvpn': }
+
   Class['openvpn::install'] ->
   Openvpn::Server[$name] ~>
   Class['openvpn::service']
