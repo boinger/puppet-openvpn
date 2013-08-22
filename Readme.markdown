@@ -30,11 +30,12 @@ Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
   }
 
   # define clients
-  openvpn::client { 'client1':
-    server => 'winterthur'
-  }
-  openvpn::client { 'client2':
-    server   => 'winterthur'
+  openvpn::client {
+    'client1':
+      server => 'winterthur';
+  
+   'client2':
+      server   => 'winterthur';
   }
 
   openvpn::client_specific_config { 'client1':
