@@ -97,7 +97,8 @@ define openvpn::client_setup(
         loguser => $loguser,
         run     => template("${module_name}/service/run.erb"),
         logrun  => template("${module_name}/service/log/run.erb"),
-        notify  => Daemontools::Service["openvpn-${name}"];
+        notify  => Daemontools::Service["openvpn-${name}"],
+        require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
 
     daemontools::service {
