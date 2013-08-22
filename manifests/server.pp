@@ -59,7 +59,7 @@
 #
 # [*proto*]
 #   String.  What IP protocol is being used.
-#   Default: tcp
+#   Default: ucp
 #   Options: tcp or udp
 #
 # [*status_log*]
@@ -125,7 +125,7 @@ define openvpn::server(
   $local = $::ipaddress_eth0,
   $logfile = false,
   $port = '1194',
-  $proto = 'tcp',
+  $proto = 'ucp',
   $status_log = "${name}/openvpn-status.log",
   $server = '',
   $push = []
