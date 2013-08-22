@@ -160,7 +160,7 @@ define openvpn::client(
   exec {
     "tar the thing ${server} with ${name}":
       cwd         => "/etc/openvpn/${server}/download-configs/",
-      command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name}",
+      command     => "/bin/rm ${name}.tar.gz; tar --exclude=\\*.conf.d -chzvf ${name}.tar.gz ${name} ; md5sum ${name}.tar.gz > ${name}.tar.gz.md5sum",
       refreshonly => true,
       notify      => Exec["generate ${name}.ovpn in ${server}"],
       require     => [  File["/etc/openvpn/${server}/download-configs/${name}/${name}.conf"],
