@@ -66,7 +66,7 @@ define openvpn::client_setup(
     file {
       "/etc/openvpn/${name}":
         ensure  => "/etc/openvpn/$tarbasename",
-        require => Exec["untar ${tarball} into ${configdir}/${tarbasename}"];
+        require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
 
   } else { $tarbasename = $name }
@@ -76,7 +76,7 @@ define openvpn::client_setup(
       cwd     => $dropfolder,
       command => "/usr/bin/md5sum ${tarball} > ${tarball}.md5sum",
       unless  => "/bin/bash -c \"[ -f ${tarball} ] && [ \"$(md5sum ${tarball})\" == \"$(cat ${tarball}.md5sum)\" ]\"",
-      notify  => Exec["untar ${tarball} into ${configdir}/${tarbasename}"],
+      notify  => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"],
       require => File[$dropfolder];
 
     "untar ${tarball} into /etc/openvpn/${tarbasename}":
