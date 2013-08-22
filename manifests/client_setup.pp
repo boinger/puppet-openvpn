@@ -71,7 +71,7 @@ define openvpn::client_setup(
 
   } else {
     $tarbasename = $name
-    
+
     file {
       "/etc/openvpn/${name}":
         mode => 0440,
@@ -106,7 +106,7 @@ define openvpn::client_setup(
         run     => template("${module_name}/service/run.erb"),
         logrun  => template("${module_name}/service/log/run.erb"),
         notify  => Daemontools::Service["openvpn-${name}"],
-        require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
+        require => File["/etc/openvpn/${name}"];
     }
 
     daemontools::service {
