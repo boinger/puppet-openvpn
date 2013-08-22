@@ -32,8 +32,8 @@
 class openvpn::install {
 
   package {
-    'openvpn': ensure => installed;
-    'easy-rsa': ensure => installed;
+    ['openvpn', 'easy-rsa']:
+      ensure => installed;
   }
 
   file {
