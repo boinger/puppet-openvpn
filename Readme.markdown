@@ -51,6 +51,11 @@ Don't forget to enable the [sysctl](https://github.com/luxflux/puppet-sysctl) di
   sysctl::value { "net.ipv4.ip_forward": value => '1'; }
 ```
 
+## Caveat
+If the name of your node's class is openvpn (such as nodes::ops::openvpn), declare ```class {'::openvpn': }``` before your ```openvpn::server {...}``` stanza.
+
+Lame, I know.  Not my fault.
+
 # Contributors
 
 These fine folks helped to get this far with this module:
