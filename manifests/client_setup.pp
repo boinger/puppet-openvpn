@@ -17,6 +17,11 @@
 # [*tarball*]
 #   String.  Name of the tarball.  Defaults to ${name}.tar.gz
 #
+# [*serviceprovider*]
+#   String.  What should set this service up?
+#
+#   Daemontools only, right now.
+#
 # === Examples
 #
 #   openvpn::client_setup {
@@ -44,21 +49,63 @@
 #
 define openvpn::client_setup(
   $dropfolder = '/etc/openvpn/tarballs',
-  $tarball = "${name}.tar.gz"
+  $tarball = "${name}.tar.gz",
+  $serviceprovider = 'daemontools'
 ) {
-
 
   file {
     $dropfolder:
       ensure  => directory;
   }
 
+  if ("${name}.tar.gz" != "$tarball") {
+    $tarbasename = regsubst($tarball,'^(.*)\.tar\.gz', '\1', 'I')
+
+    file {
+      "/etc/openvpn/${name}":
+        ensure  => "/etc/openvpn/$tarbasename",
+        require => Exec["untar ${tarball} into ${configdir}/${tarbasename}"];
+    }
+
+  } else { $tarbasename = $name }
+
   exec {
     "md5sum ${name} OpenVPN config bundles":
       cwd     => $dropfolder,
       command => "/usr/bin/md5sum ${tarball} > ${tarball}.md5sum",
       unless  => "/bin/bash -c \"[ -f ${tarball} ] && [ \"$(md5sum ${tarball})\" == \"$(cat ${tarball}.md5sum)\" ]\"",
+      notify  => Exec["untar ${tarball} into ${configdir}/${tarbasename}"],
       require => File[$dropfolder];
+
+    "untar ${tarball} into /etc/openvpn/${tarbasename}":
+      cwd     => $configdir,
+      command => "/bin/tar xfv ${dropfolder}/${tarball}",
+      creates => "/etc/openvpn/$tarbasename",
+      require => File["/etc/openvpn/${name}"];
+  }
+
+  if ($serviceprovider == "daemontools" ) {
+
+    $user = openvpn
+    $loguser = openvpn
+
+    daemontools::setup{
+      "openvpn/${name}":
+        user    => $user,
+        loguser => $loguser,
+        run     => template("${module_name}/run.erb"),
+        logrun  => template("${module_name}/log/run.erb"),
+        notify  => Daemontools::Service["openvpn-${name}"];
+    }
+
+    daemontools::service {
+    "openvpn-${name}":
+      source  => "/etc/openvpn/${name}",
+      require => Daemontools::Setup["openvpn/${name}"];
+    }
+  }
+  else {
+    notify { "We only have configs for daemontools. Sorry. You'll have to hack in whatever you expected serviceprovider => {serviceprovider} to do.": }
   }
 
 }
