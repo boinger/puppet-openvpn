@@ -69,7 +69,15 @@ define openvpn::client_setup(
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
 
-  } else { $tarbasename = $name }
+  } else {
+    $tarbasename = $name
+    
+    file {
+      "/etc/openvpn/${name}":
+        mode => 0440,
+        require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
+    }
+  }
 
   exec {
     "md5sum ${name} OpenVPN config bundles":
