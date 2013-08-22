@@ -88,10 +88,10 @@ define openvpn::client_setup(
       require => File[$dropfolder];
 
     "untar ${tarball} into /etc/openvpn/${tarbasename}":
-      cwd     => $configdir,
+      cwd     => "/etc/openvpn",
       command => "/bin/tar xfv ${dropfolder}/${tarball}",
       creates => "/etc/openvpn/$tarbasename",
-      require => File["/etc/openvpn/${name}"];
+      require => Package['openvpn'];
   }
 
   if ($serviceprovider == "daemontools" ) {
