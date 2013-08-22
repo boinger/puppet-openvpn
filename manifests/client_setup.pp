@@ -88,6 +88,17 @@ define openvpn::client_setup(
     }
   }
 
+  file {
+    "/etc/openvpn/${name}/keys":
+      owner   => $user,
+      recurse => true,
+      require => File["/etc/openvpn/${name}"];
+
+    "/etc/openvpn/${name}/${name}.conf":
+      owner   => $user,
+      require => File["/etc/openvpn/${name}"];
+  }
+
   exec {
     "untar ${tarball} into /etc/openvpn/${tarbasename}":
       cwd         => "/etc/openvpn",
