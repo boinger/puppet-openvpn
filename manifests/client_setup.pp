@@ -53,9 +53,11 @@ define openvpn::client_setup(
   $serviceprovider = 'daemontools'
 ) {
 
-  file {
-    $dropfolder:
-      ensure  => directory;
+  if ! defined (File[$dropfolder]) {
+    file {
+      $dropfolder:
+        ensure  => directory;
+    }
   }
 
   if ("${name}.tar.gz" != "$tarball") {
