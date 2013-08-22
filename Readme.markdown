@@ -17,7 +17,7 @@ Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
 
 
 ## Example
-
+All of this goes on the *server node*:
 ```puppet
   # add a server instance
   openvpn::server { 'winterthur':
@@ -43,6 +43,8 @@ Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
     ifconfig => '10.200.200.50 255.255.255.0'
   }
 ```
+
+Now, copy the client tarballs (manually) from /etc/openvpn/uatvpn/download-configs/ to their correct destination client node.
 
 Don't forget to enable the [sysctl](https://github.com/luxflux/puppet-sysctl) directive ```net.ipv4.ip_forward```!
 ```puppet
