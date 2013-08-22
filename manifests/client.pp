@@ -48,7 +48,7 @@
 #
 # [*proto*]
 #   String.  What IP protocol is being used.
-#   Default: ucp
+#   Default: udp
 #   Options: tcp or udp
 #
 # [*remote_host*]
