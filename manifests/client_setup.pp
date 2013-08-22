@@ -92,7 +92,7 @@ define openvpn::client_setup(
     "md5sum ${name} OpenVPN config bundles":
       cwd     => $dropfolder,
       command => "/usr/bin/md5sum ${tarball} > ${tarball}.md5sum",
-      unless  => "/bin/bash -c \"[ -f ${tarball} ] && [ \"$(md5sum ${tarball})\" == \"$(cat ${tarball}.md5sum)\" ] && true\"",
+      unless  => "/usr/bin/test -f ${tarball}.md5sum && /usr/bin/test \"$(md5sum ${tarball})\" == \"$(cat ${tarball}.md5sum)\"",
       notify  => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"],
       require => File[$dropfolder];
 
