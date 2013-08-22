@@ -72,7 +72,7 @@ define openvpn::client_setup(
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
 
       "/etc/openvpn/${tarbasename}":
-        mode    => 0440,
+        mode    => 0755,
         owner   => $user,
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
@@ -82,7 +82,7 @@ define openvpn::client_setup(
 
     file {
       "/etc/openvpn/${name}":
-        mode    => 0440,
+        mode    => 0755,
         owner   => $user,
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
