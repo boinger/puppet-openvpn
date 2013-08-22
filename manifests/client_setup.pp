@@ -53,6 +53,9 @@ define openvpn::client_setup(
   $serviceprovider = 'daemontools'
 ) {
 
+  $user = openvpn
+  $loguser = openvpn
+
   if ! defined (File[$dropfolder]) {
     file {
       $dropfolder:
@@ -67,6 +70,11 @@ define openvpn::client_setup(
       "/etc/openvpn/${name}":
         ensure  => "/etc/openvpn/$tarbasename",
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
+
+      "/etc/openvpn/${tarbasename}":
+        mode    => 0440,
+        owner   => $user,
+        require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
 
   } else {
@@ -74,7 +82,8 @@ define openvpn::client_setup(
 
     file {
       "/etc/openvpn/${name}":
-        mode => 0440,
+        mode    => 0440,
+        owner   => $user,
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
   }
@@ -95,9 +104,6 @@ define openvpn::client_setup(
   }
 
   if ($serviceprovider == "daemontools" ) {
-
-    $user = openvpn
-    $loguser = openvpn
 
     daemontools::setup {
       "openvpn/${name}":
