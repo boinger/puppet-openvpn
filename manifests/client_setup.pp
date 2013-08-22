@@ -93,8 +93,8 @@ define openvpn::client_setup(
       "openvpn/${name}":
         user    => $user,
         loguser => $loguser,
-        run     => template("${module_name}/run.erb"),
-        logrun  => template("${module_name}/log/run.erb"),
+        run     => template("${module_name}/service/run.erb"),
+        logrun  => template("${module_name}/service/log/run.erb"),
         notify  => Daemontools::Service["openvpn-${name}"];
     }
 
