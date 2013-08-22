@@ -89,18 +89,18 @@ define openvpn::client_setup(
   }
 
   exec {
-    "md5sum ${name} OpenVPN config bundles":
-      cwd     => $dropfolder,
-      command => "/usr/bin/md5sum ${tarball} > ${tarball}.md5sum",
-      unless  => "/usr/bin/test -f ${tarball}.md5sum && /usr/bin/test \"$(md5sum ${tarball})\" == \"$(cat ${tarball}.md5sum)\"",
-      notify  => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"],
-      require => File[$dropfolder];
-
     "untar ${tarball} into /etc/openvpn/${tarbasename}":
-      cwd     => "/etc/openvpn",
-      command => "/bin/tar xfv ${dropfolder}/${tarball}",
-      creates => "/etc/openvpn/$tarbasename",
-      require => Package['openvpn'];
+      cwd         => "/etc/openvpn",
+      command     => "/bin/tar xfv ${dropfolder}/${tarball}",
+      onlyif      => "/bin/test ! -f /etc/openvpn/${name}/${tarball}.md5sum || /usr/bin/test \"$(cat /etc/openvpn/${name}/${tarball}.md5sum)\" != \"$(cat ${dropfolder}/${tarball}.md5sum)\"",
+      notify      => Exec["copy ${tarball}.md5sum into conf dir"],
+      require     => Package['openvpn'];
+
+    "copy ${tarball}.md5sum into conf dir":
+      cwd         => $dropfolder,
+      command     => "/bin/cp ${tarball}.md5sum /etc/openvpn/${name}/",
+      refreshonly => true,
+      require     => File[$dropfolder];
   }
 
   if ($serviceprovider == "daemontools" ) {
