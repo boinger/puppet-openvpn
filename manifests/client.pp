@@ -48,7 +48,7 @@
 #
 # [*proto*]
 #   String.  What IP protocol is being used.
-#   Default: udp
+#   Default: tcp
 #   Options: tcp or udp
 #
 # [*remote_host*]
@@ -110,7 +110,7 @@ define openvpn::client(
   $persist_key = true,
   $persist_tun = true,
   $port = '1194',
-  $proto = 'udp',
+  $proto = 'tcp',
   $remote_host = $::fqdn,
   $resolv_retry = 'infinite',
   $verb = '3',
