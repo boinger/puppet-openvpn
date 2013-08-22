@@ -1,12 +1,10 @@
 # == Class: openvpn
 #
-# This module installs the openvpn service, configures vpn endpoints, generates
-# client certificates, and generates client config files
-#
+# This module installs the openvpn service
 #
 # === Examples
 #
-# This class should not be directly invoked
+# include openvpn::install
 #
 #
 # === Authors
