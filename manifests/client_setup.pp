@@ -53,7 +53,7 @@ define openvpn::client_setup(
   $serviceprovider = 'daemontools'
 ) {
 
-  $user = openvpn
+  $user = root
   $loguser = openvpn
 
   if ! defined (File[$dropfolder]) {
