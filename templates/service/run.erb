@@ -1,4 +1,4 @@
 #!/bin/sh
 exec 2>&1
-cd /etc/openvpn/<%= @name %>
+cd /etc/openvpn
 exec setuidgid <%= @user %> /usr/sbin/openvpn <%= @name %>.conf
