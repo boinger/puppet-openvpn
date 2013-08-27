@@ -135,7 +135,8 @@ define openvpn::server(
 
   Class['openvpn::install'] ->
   Openvpn::Server[$name] ~>
-  Class['openvpn::service']
+  openvpn::service[$name]
+
 
   $tls_server = $proto ? {
     /tcp/   => true,
