@@ -35,7 +35,7 @@ define openvpn::service(
 ){
   if ($serviceprovider == "daemontools" ) {
     daemontools::setup {
-      "openvpn-server":
+      "openvpn":
         user    => $user,
         loguser => $loguser,
         run     => template("${module_name}/service/run.erb"),
