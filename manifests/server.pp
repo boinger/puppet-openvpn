@@ -132,7 +132,7 @@ define openvpn::server(
 ) {
 
   include openvpn
-  openvpn::service[$name]
+  openvpn::service { $name: }
 
   Class['openvpn::install'] ->
   Openvpn::Server[$name] ~>

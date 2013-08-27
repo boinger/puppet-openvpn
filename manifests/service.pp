@@ -1,4 +1,4 @@
-# == Class: openvpn::config
+# == Define: openvpn::config
 #
 # This class maintains the openvpn service
 #
@@ -30,7 +30,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-define openvpn::service (
+define openvpn::service(
   $serviceprovider = 'daemontools'
 ){
   if ($serviceprovider == "daemontools" ) {
