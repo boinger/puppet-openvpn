@@ -9,11 +9,12 @@ Puppet module to manage OpenVPN servers
 * Downloadable client configurations and SSL-Certificates for easy client configuration
 * Support for multiple server instances
 
-Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6.
+Tested on Ubuntu Precise Pangolin, CentOS 6, RedHat 6, Scientific 6.
 
 
 ## Dependencies
   - [puppet-concat](https://github.com/ripienaar/puppet-concat)
+  - [puppet-daemontools](https://github.com/boinger/puppet-daemontools) (optional)
 
 
 ## Example
