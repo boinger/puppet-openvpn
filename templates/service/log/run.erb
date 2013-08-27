@@ -1,4 +1,4 @@
 #!/bin/sh
 [ -d ./main ] || mkdir ./main
-chown -Rf <%= scope.lookupvar('loguser') %>
+chown -Rf <%= scope.lookupvar('loguser') %> .
 exec setuidgid <%= scope.lookupvar('loguser') %> multilog s5000000 ./main
