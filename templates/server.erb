@@ -32,6 +32,19 @@ ifconfig-pool-persist <%= scope.lookupvar('name') %>/vpn-ipp.txt
 <% if scope.lookupvar('server') != '' -%>
 server <%= scope.lookupvar('server') %>
 <% end -%>
+<% if scope.lookupvar('keepalive') -%>
+keepalive <%= scope.lookupvar('keepalive') %>
+<% end -%>
+<% if scope.lookupvar('persist_key') -%>
+persist-key
+<% end -%>
+<% if scope.lookupvar('persist_tun') -%>
+persist-tun
+<% end -%>
 <% scope.lookupvar('push').each do |item| -%>
 push <%= item %>
+<% end -%>
+verb <%= scope.lookupvar('verb') %>
+<% if scope.lookupvar('mute') -%>
+mute <%= scope.lookupvar('mute') %>
 <% end -%>

@@ -70,6 +70,37 @@
 #   String.  Network to assign client addresses out of
 #   Default: None.  Required in tun mode, not in tap mode
 #
+# [*tls_server*]
+#   Boolean. Enable TLS and assume server role during TLS handshake. Note that OpenVPN is
+#     designed as a peer-to-peer application. The designation of client or server is only
+#     for the purpose of negotiating the TLS control channel. 
+# Default: true
+#
+# [*keepalive*]
+#   String. The keepalive directive causes ping-like messages to be sent back and forth over
+#     the link so that each side knows when the other side has gone down.
+#     Ping every 10 seconds, assume that remote peer is down if no ping received during
+#     a 120 second time period.
+# Default: 10 120
+#
+# [*persist_key*]
+#   Boolean.  Try to retain access to resources that may be unavailable
+#     because of privilege downgrades
+#   Default: true
+#
+# [*persist_tun*]
+#   Boolean.  Try to retain access to resources that may be unavailable
+#     because of privilege downgrades
+#   Default: true
+#
+# [*mute*]
+#   Integer.  Set log mute level
+#   Default: 20
+#
+# [*verb*]
+#   Integer.  Level of logging verbosity
+#   Default: 3 (required field)
+#
 # [*push*]
 #   Array.  Options to push out to the client.  This can include routes, DNS
 #     servers, DNS search domains, and many other options.
@@ -128,6 +159,12 @@ define openvpn::server(
   $proto = 'udp',
   $status_log = "${name}/openvpn-status.log",
   $server = '',
+  $tls_server = true,
+  $keepalive = '10 120',
+  $persist_key = true,
+  $persist_tun = true,
+  $verb = 3,
+  $mute = 20,
   $push = []
 ) {
 
