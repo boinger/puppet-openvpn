@@ -55,7 +55,6 @@ define openvpn::client_setup(
   $loguser = 'nobody',
 ) {
 
-
   if ! defined (File[$dropfolder]) {
     file {
       $dropfolder:
