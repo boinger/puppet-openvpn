@@ -55,7 +55,8 @@ define openvpn::service(
         ensure     => running,
         enable     => true,
         hasrestart => true,
-        hasstatus  => true;
+        hasstatus  => true,
+        require    => Class['openvpn::server'];
     }
   }
 }
