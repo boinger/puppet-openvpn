@@ -40,7 +40,7 @@ define openvpn::service(
         loguser => $loguser,
         run     => template("${module_name}/service/run.erb"),
         logrun  => template("${module_name}/service/log/run.erb"),
-        notify  => Daemontools::Service["openvpn--server"],
+        notify  => Daemontools::Service["openvpn-server"],
         require => File["/etc/openvpn/${name}"];
     }
 
