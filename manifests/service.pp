@@ -46,7 +46,7 @@ define openvpn::service(
 
     daemontools::service {
     "openvpn-server":
-      source  => "/etc/openvpn/${name}",
+      source  => "/etc/openvpn",
       require => Daemontools::Setup["openvpn"];
     }
   } else {
