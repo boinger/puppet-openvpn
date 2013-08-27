@@ -33,7 +33,7 @@
 define openvpn::service (
   $serviceprovider = 'daemontools',
   $user = 'nobody',
-  $loguser = $::user,
+  $loguser = $user,
 ){
   if ($serviceprovider == "daemontools" ) {
     daemontools::setup {
