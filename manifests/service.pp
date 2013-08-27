@@ -1,11 +1,11 @@
-# == Define: openvpn::config
+# == Define: openvpn::service
 #
 # This class maintains the openvpn service
 #
 #
 # === Examples
 #
-# This class should not be directly invoked
+# This class should probably not be directly invoked
 #
 # === Authors
 #
