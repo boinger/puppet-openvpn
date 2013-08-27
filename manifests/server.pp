@@ -179,11 +179,6 @@ define openvpn::server(
     default => $group
   }
 
-  file {
-    ["/etc/openvpn/${name}", "/etc/openvpn/${name}/client-configs", "/etc/openvpn/${name}/download-configs" ]:
-      ensure  => directory;
-  }
-
   exec {
     "copy easy-rsa to openvpn config folder ${name}":
       command => "/bin/cp -r ${openvpn::params::easyrsa_source} /etc/openvpn/${name}/easy-rsa",
@@ -222,6 +217,10 @@ define openvpn::server(
   }
 
   file {
+    ["/etc/openvpn/${name}", "/etc/openvpn/${name}/client-configs", "/etc/openvpn/${name}/download-configs" ]:
+      ensure  => directory,
+      owner   => $user;
+
     "/etc/openvpn/${name}/easy-rsa/vars":
       ensure  => present,
       content => template('openvpn/vars.erb'),
@@ -248,10 +247,6 @@ define openvpn::server(
       mode    => '0444',
       content => template('openvpn/server.erb'),
       notify  => Openvpn::Service[$name];
-
-    "/etc/openvpn/${name}":
-      owner   => $user,
-      mode    => '0755';
   }
 
   if $openvpn::params::link_openssl_cnf == true {
