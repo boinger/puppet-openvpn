@@ -239,7 +239,8 @@ define openvpn::server(
       owner   => root,
       group   => root,
       mode    => '0444',
-      content => template('openvpn/server.erb');
+      content => template('openvpn/server.erb'),
+      notify  => Openvpn::Service[$name];
   }
 
   if $openvpn::params::link_openssl_cnf == true {
