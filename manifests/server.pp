@@ -235,7 +235,7 @@ define openvpn::server(
       target  => "/etc/openvpn/${name}/easy-rsa/keys",
       owner   => $user,
       recurse => true,
-      mode    => 0644;
+      mode    => 0644,
       require => Exec["copy easy-rsa to openvpn config folder ${name}"];
 
     "/etc/openvpn/${name}/keys/${name}.key":
@@ -248,6 +248,10 @@ define openvpn::server(
       mode    => '0444',
       content => template('openvpn/server.erb'),
       notify  => Openvpn::Service[$name];
+
+    "/etc/openvpn/${name}":
+      owner   => $user,
+      mode    => '0755';
   }
 
   if $openvpn::params::link_openssl_cnf == true {
