@@ -174,12 +174,6 @@ define openvpn::server(
   Class['openvpn::install'] ->
   Openvpn::Server[$name]
 
-
-  $tls_server = $proto ? {
-    /tcp/   => true,
-    default => false
-  }
-
   $group_to_set = $group ? {
     false   => $openvpn::params::group,
     default => $group
