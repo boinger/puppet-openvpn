@@ -31,13 +31,14 @@
 # limitations under the License.
 #
 define openvpn::service (
-  $serviceprovider = 'daemontools'
+  $serviceprovider = 'daemontools',
+  $user = 'nobody',
+  $loguser = $::user,
 ){
   if ($serviceprovider == "daemontools" ) {
-    $loguser = $openvpn::server::user
     daemontools::setup {
       "openvpn":
-        user    => $openvpn::server::user,
+        user    => $user,
         loguser => $loguser,
         run     => template("${module_name}/service/run.erb"),
         logrun  => template("${module_name}/service/log/run.erb"),
