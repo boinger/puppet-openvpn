@@ -50,11 +50,11 @@
 define openvpn::client_setup(
   $dropfolder = '/etc/openvpn/tarballs',
   $tarball = "${name}.tar.gz",
-  $serviceprovider = 'daemontools'
+  $serviceprovider = 'daemontools',
+  $user = 'nobody',
+  $loguser = 'nobody',
 ) {
 
-  $user = root
-  $loguser = openvpn
 
   if ! defined (File[$dropfolder]) {
     file {
