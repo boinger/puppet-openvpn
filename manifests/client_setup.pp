@@ -51,7 +51,6 @@ define openvpn::client_setup(
   $dropfolder = '/etc/openvpn/tarballs',
   $tarball = "${name}.tar.gz",
   $serviceprovider = 'daemontools',
-  $user = 'nobody',
   $loguser = 'nobody',
 ) {
 
@@ -72,7 +71,6 @@ define openvpn::client_setup(
 
       "/etc/openvpn/${tarbasename}":
         mode    => 0755,
-        owner   => $user,
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
 
@@ -82,23 +80,19 @@ define openvpn::client_setup(
     file {
       "/etc/openvpn/${name}":
         mode    => 0755,
-        owner   => $user,
         require => Exec["untar ${tarball} into /etc/openvpn/${tarbasename}"];
     }
   }
 
   file {
     "/etc/openvpn/${name}/keys":
-      owner   => $user,
       recurse => true,
       mode    => 0644;
 
     "/etc/openvpn/${name}/keys/${name}.key":
-      owner   => $user,
       mode    => 0600;
 
     "/etc/openvpn/${name}/${name}.conf":
-      owner   => $user,
       mode    => 0444;
   }
 
@@ -121,7 +115,7 @@ define openvpn::client_setup(
 
     daemontools::setup {
       "openvpn/${name}":
-        user    => $user,
+        user    => root, # needs to create interfaces, so, requires root.
         loguser => $loguser,
         run     => template("${module_name}/service/run.erb"),
         logrun  => template("${module_name}/service/log/run.erb"),

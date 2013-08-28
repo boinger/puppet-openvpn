@@ -32,7 +32,7 @@
 #
 define openvpn::service (
   $serviceprovider = 'daemontools',
-  $user = 'nobody',
+  $user = 'root', # needs root to create tun interfaces
   $loguser = 'nobody',
 ){
   if ($serviceprovider == "daemontools" ) {

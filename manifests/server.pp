@@ -221,12 +221,8 @@ define openvpn::server(
     "/etc/openvpn/${name}",
     "/etc/openvpn/${name}/client-configs",
     "/etc/openvpn/${name}/download-configs",
-    "/etc/openvpn/${name}/easy-rsa",
     ]:
-      ensure  => directory,
-      owner   => $user,
-      mode    => undef,
-      recurse => true;
+      ensure  => directory;
 
     "/etc/openvpn/${name}/easy-rsa/vars":
       ensure  => present,
