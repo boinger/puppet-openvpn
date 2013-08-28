@@ -157,7 +157,7 @@ define openvpn::client(
       content => template('openvpn/client.erb'),
       notify  => Exec["tar the thing ${server} with ${name}"];
 
-    "/etc/openvpn/${name}/keys/${name}.key":
+    "/etc/openvpn/${server}/easy-rsa/keys/${name}.key":
       owner   => $user,
       mode    => 0600,
       require => Exec["generate certificate for ${name} in context of ${server}"];
