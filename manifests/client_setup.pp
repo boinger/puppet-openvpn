@@ -117,8 +117,8 @@ define openvpn::client_setup(
       "openvpn/${name}":
         user    => root, # needs to create interfaces, so, requires root.
         loguser => $loguser,
-        run     => template("${module_name}/service/run.erb"),
-        logrun  => template("${module_name}/service/log/run.erb"),
+        run     => template("${module_name}/client_service/run.erb"),
+        logrun  => template("${module_name}/client_service/log/run.erb"),
         notify  => Daemontools::Service["openvpn-${name}"],
         require => File["/etc/openvpn/${name}"];
     }
