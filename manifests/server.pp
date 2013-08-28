@@ -217,9 +217,15 @@ define openvpn::server(
   }
 
   file {
-    ["/etc/openvpn/${name}", "/etc/openvpn/${name}/client-configs", "/etc/openvpn/${name}/download-configs" ]:
+    [
+    "/etc/openvpn/${name}",
+    "/etc/openvpn/${name}/client-configs",
+    "/etc/openvpn/${name}/download-configs",
+    "/etc/openvpn/${name}/easy-rsa",
+    ]:
       ensure  => directory,
-      owner   => $user;
+      owner   => $user,
+      recurse => true;
 
     "/etc/openvpn/${name}/easy-rsa/vars":
       ensure  => present,
@@ -232,9 +238,6 @@ define openvpn::server(
     "/etc/openvpn/${name}/keys":
       ensure  => link,
       target  => "/etc/openvpn/${name}/easy-rsa/keys",
-      owner   => $user,
-      recurse => true,
-      mode    => 0644,
       require => Exec["copy easy-rsa to openvpn config folder ${name}"];
 
     "/etc/openvpn/${name}/keys/${name}.key":
