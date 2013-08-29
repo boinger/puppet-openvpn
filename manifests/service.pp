@@ -36,6 +36,7 @@ define openvpn::service (
   $loguser = 'nobody',
 ){
   if ($serviceprovider == "daemontools" ) {
+
     daemontools::setup {
       "openvpn":
         user    => $user,
@@ -51,7 +52,9 @@ define openvpn::service (
       source  => "/etc/openvpn",
       require => Daemontools::Setup["openvpn"];
     }
+
   } else {
+
     service {
       'openvpn':
         ensure     => running,
@@ -60,5 +63,6 @@ define openvpn::service (
         hasstatus  => true,
         require    => Class['openvpn::server'];
     }
+    
   }
 }
